@@ -6,9 +6,6 @@ import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 
 
-
-
-
 def run_mpe(parallel_env):
 
     step = 0
@@ -51,11 +48,6 @@ def run_mpe(parallel_env):
 
 
             observation = new_observation
-
-
-
-
-
 
         RL_adversary.learn()
         RL_good.learn()
