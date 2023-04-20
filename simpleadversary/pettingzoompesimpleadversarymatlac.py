@@ -299,7 +299,7 @@ if __name__ == "__main__":
     name = 'RL_adversary'
 
 
-    RL_adversary = DeepQNetwork(sess, 5,60,
+    RL_adversary = DeepQNetwork(sess, 5,8,
                       learning_rate=0.01,
                       reward_decay=0.9,
                       e_greedy=1,
@@ -309,7 +309,7 @@ if __name__ == "__main__":
                       )
 
     name = 'RL2_adversary'
-    RL2_adversary = DeepQNetwork(sess, 5,60,
+    RL2_adversary = DeepQNetwork(sess, 5,8,
                       learning_rate=0.01,
                       reward_decay=0.9,
                       e_greedy=1,
@@ -319,7 +319,7 @@ if __name__ == "__main__":
                       )
 
     name = 'RL3_adversary'
-    RL3_adversary = DeepQNetwork(sess, 5,60,
+    RL3_adversary = DeepQNetwork(sess, 5,8,
                       learning_rate=0.01,
                       reward_decay=0.9,
                       e_greedy=1,
@@ -329,7 +329,7 @@ if __name__ == "__main__":
                       )
 
     name = 'RL4_adversary'
-    RL4_adversary = DeepQNetwork(sess, 5,60,
+    RL4_adversary = DeepQNetwork(sess, 5,8,
                       learning_rate=0.01,
                       reward_decay=0.9,
                       e_greedy=1,
@@ -339,7 +339,7 @@ if __name__ == "__main__":
                       )
 
 
-    RL_good = DeepQNetwork(sess, 5,58,
+    RL_good = DeepQNetwork(sess, 5,10,
                       learning_rate=0.01,
                       reward_decay=0.9,
                       e_greedy=0.9,
@@ -350,10 +350,10 @@ if __name__ == "__main__":
 
 
 
-    actor = Actor(sess, n_features=60, n_actions=5, lr=0.00000001)
-    actor2 = Actor2(sess, n_features=60, n_advisors=4, lr=0.00000001)
-    critic = Critic(sess, n_features=60, n_actions=5, lr=0.000001)
-    critic2 = Critic2(sess, n_features=60, n_advisors=4, lr=0.000001)
+    actor = Actor(sess, n_features=8, n_actions=5, lr=0.00000001)
+    actor2 = Actor2(sess, n_features=8, n_advisors=4, lr=0.00000001)
+    critic = Critic(sess, n_features=8, n_actions=5, lr=0.000001)
+    critic2 = Critic2(sess, n_features=8, n_advisors=4, lr=0.000001)
 
     sess.run(tf.global_variables_initializer())
 

@@ -6,9 +6,9 @@ import gym
 np.random.seed(1)
 tf.set_random_seed(1)
 
-GAMMA = 0.9     
-LR_A = 0.001    
-LR_C = 0.01     
+GAMMA = 0.9
+LR_A = 0.001
+LR_C = 0.01
 
 
 class Actor(object):
@@ -27,10 +27,10 @@ class Actor(object):
             with tf.variable_scope('matlacActor'):
                 l1 = tf.layers.dense(
                     inputs=self.s,
-                    units=50,    
+                    units=50,
                     activation=tf.nn.relu,
-                    kernel_initializer=tf.random_normal_initializer(0., .1),    
-                    bias_initializer=tf.constant_initializer(0.1),  
+                    kernel_initializer=tf.random_normal_initializer(0., .1),
+                    bias_initializer=tf.constant_initializer(0.1),
                     name='matlacl1'
                 )
 
@@ -46,10 +46,10 @@ class Actor(object):
 
                 self.acts_prob = tf.layers.dense(
                     inputs=l2,
-                    units=n_actions,    
-                    activation=tf.nn.softmax,   
-                    kernel_initializer=tf.random_normal_initializer(0., .1),  
-                    bias_initializer=tf.constant_initializer(0.1),  
+                    units=n_actions,
+                    activation=tf.nn.softmax,
+                    kernel_initializer=tf.random_normal_initializer(0., .1),
+                    bias_initializer=tf.constant_initializer(0.1),
                     name='matlacacts_prob'
                 )
 
@@ -59,7 +59,7 @@ class Actor(object):
 
 
             with tf.variable_scope('matlactrain'):
-                self.train_op = tf.train.AdamOptimizer(lr).minimize(-self.exp_v)  
+                self.train_op = tf.train.AdamOptimizer(lr).minimize(-self.exp_v)
 
     def learn(self, s, a, target_value, q_values):
         s = s[np.newaxis, :]
@@ -79,9 +79,9 @@ class Actor(object):
 
     def choose_action(self, s):
         s = s[np.newaxis, :]
-        probs = self.sess.run(self.acts_prob, {self.s: s})   
+        probs = self.sess.run(self.acts_prob, {self.s: s})
 
-        return np.random.choice(np.arange(probs.shape[1]), p=probs.ravel())   
+        return np.random.choice(np.arange(probs.shape[1]), p=probs.ravel())
 
     def save_model(self, s):
         model_vars = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, self.name_scope)
@@ -113,13 +113,13 @@ class Actor2(object):
             with tf.variable_scope('matlacActor2'):
                 l1 = tf.layers.dense(
                     inputs=self.s,
-                    units=50,    
+                    units=50,
                     activation=tf.nn.relu,
-                    kernel_initializer=tf.random_normal_initializer(0., .1),    
-                    bias_initializer=tf.constant_initializer(0.1),  
+                    kernel_initializer=tf.random_normal_initializer(0., .1),
+                    bias_initializer=tf.constant_initializer(0.1),
                     name='matlacl2'
                 )
-                
+
                 l2 = tf.layers.dense(
                     inputs=l1,
                     units=50,
@@ -131,10 +131,10 @@ class Actor2(object):
 
                 self.acts_prob = tf.layers.dense(
                     inputs=l2,
-                    units=n_advisors,    
-                    activation=tf.nn.softmax,   
-                    kernel_initializer=tf.random_normal_initializer(0., .1),  
-                    bias_initializer=tf.constant_initializer(0.1),  
+                    units=n_advisors,
+                    activation=tf.nn.softmax,
+                    kernel_initializer=tf.random_normal_initializer(0., .1),
+                    bias_initializer=tf.constant_initializer(0.1),
                     name='matlacacts_prob2'
                 )
 
@@ -145,7 +145,7 @@ class Actor2(object):
 
 
             with tf.variable_scope('matlactrain2'):
-                self.train_op = tf.train.AdamOptimizer(lr).minimize(-self.exp_v)  
+                self.train_op = tf.train.AdamOptimizer(lr).minimize(-self.exp_v)
 
     def learn(self, s, e, target_value, q_values):
         s = s[np.newaxis, :]
@@ -163,8 +163,8 @@ class Actor2(object):
 
     def choose_advisor(self, s):
         s = s[np.newaxis, :]
-        probs = self.sess.run(self.acts_prob, {self.s: s})   
-        return np.random.choice(np.arange(probs.shape[1]), p=probs.ravel())   
+        probs = self.sess.run(self.acts_prob, {self.s: s})
+        return np.random.choice(np.arange(probs.shape[1]), p=probs.ravel())
 
 
     def save_model(self, s):
@@ -202,13 +202,13 @@ class Critic(object):
             with tf.variable_scope('matlacCritic'):
                 l1 = tf.layers.dense(
                     inputs=self.s,
-                    units=50,  
-                    activation=tf.nn.relu,  
-                    kernel_initializer=tf.random_normal_initializer(0., .1),  
-                    bias_initializer=tf.constant_initializer(0.1),  
+                    units=50,
+                    activation=tf.nn.relu,
+                    kernel_initializer=tf.random_normal_initializer(0., .1),
+                    bias_initializer=tf.constant_initializer(0.1),
                     name='matlacl3'
                 )
-                
+
                 l2 = tf.layers.dense(
                     inputs=l1,
                     units=50,
@@ -222,14 +222,14 @@ class Critic(object):
                     inputs=l2,
                     units=n_actions,
                     activation=None,
-                    kernel_initializer=tf.random_normal_initializer(0., .1),  
-                    bias_initializer=tf.constant_initializer(0.1),  
+                    kernel_initializer=tf.random_normal_initializer(0., .1),
+                    bias_initializer=tf.constant_initializer(0.1),
                     name='matlacV'
                 )
 
             with tf.variable_scope('matlacsquared_TD_error'):
                 self.td_error = self.r + GAMMA * self.q_ - self.q[0,self.a]
-                self.loss = tf.square(self.td_error)    
+                self.loss = tf.square(self.td_error)
             with tf.variable_scope('matlaccritictrain'):
                 self.train_op = tf.train.AdamOptimizer(lr).minimize(self.loss)
 
@@ -244,14 +244,14 @@ class Critic(object):
 
 
         s = np.array(s)
-        
+
         s_ = list(s_)
-        
+
         for i in range(len(opp_a_)):
             new_a = opp_a_[i]
             new_a = float(new_a)
             s_.append(new_a)
-        
+
         s_ = np.array(s_)
 
 
@@ -304,13 +304,13 @@ class Critic2(object):
             with tf.variable_scope('matlacCritic2'):
                 l1 = tf.layers.dense(
                     inputs=self.s,
-                    units=50,  
-                    activation=tf.nn.relu,  
-                    kernel_initializer=tf.random_normal_initializer(0., .1),  
-                    bias_initializer=tf.constant_initializer(0.1),  
+                    units=50,
+                    activation=tf.nn.relu,
+                    kernel_initializer=tf.random_normal_initializer(0., .1),
+                    bias_initializer=tf.constant_initializer(0.1),
                     name='matlacl3'
                 )
-                
+
                 l2 = tf.layers.dense(
                     inputs=l1,
                     units=50,
@@ -324,14 +324,14 @@ class Critic2(object):
                     inputs=l2,
                     units=n_advisors,
                     activation=None,
-                    kernel_initializer=tf.random_normal_initializer(0., .1),  
-                    bias_initializer=tf.constant_initializer(0.1),  
+                    kernel_initializer=tf.random_normal_initializer(0., .1),
+                    bias_initializer=tf.constant_initializer(0.1),
                     name='matlacV'
                 )
 
             with tf.variable_scope('matlacsquared_TD_error2'):
                 self.td_error = self.r + GAMMA * self.q_ - self.q[0,self.ex]
-                self.loss = tf.square(self.td_error)    
+                self.loss = tf.square(self.td_error)
             with tf.variable_scope('matlaccritictrain2'):
                 self.train_op = tf.train.AdamOptimizer(lr).minimize(self.loss)
 
@@ -346,15 +346,15 @@ class Critic2(object):
 
 
         s = np.array(s)
-        
+
         s_ = list(s_)
-        
+
         for i in range(len(opp_a_)):
             new_a = opp_a_[i]
             new_a = float(new_a)
             s_.append(new_a)
-        
-        
+
+
         s_ = np.array(s_)
 
 
