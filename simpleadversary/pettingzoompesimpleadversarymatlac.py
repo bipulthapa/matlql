@@ -290,7 +290,7 @@ def run_mpe(parallel_env):
 
 if __name__ == "__main__":
 
-    parallel_env = simple_adversary_v2.parallel_env(num_good = 8, num_adversaries = 8, num_obstacles = 5, max_cycles = 500)
+    parallel_env = simple_adversary_v2.parallel_env(N=2, max_cycles=25, continuous_actions=False)
 
     parallel_env.seed(1)
 
