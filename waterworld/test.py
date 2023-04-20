@@ -1,12 +1,9 @@
-from pettingzoo.mpe import simple_tag_v2
+from pettingzoo.mpe import simple_adversary_v2
 from RL_brain_DQN import DeepQNetwork
 import csv
 import numpy as np
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
-
-
-
 
 
 def run_mpe(parallel_env):
@@ -16,7 +13,7 @@ def run_mpe(parallel_env):
         myfile.write('{0},{1},{2}\n'.format("Episode", "sumofrewardsgood(DQN)", "sumofaveragerewardsadversary(DQN)"))
 
     num_episode = 0
-    while num_episode < 10:
+    while num_episode < 2:
         observation = parallel_env.reset()
         accumulated_reward = [0,0]
         max_cycles = 500
@@ -154,12 +151,12 @@ def run_mpe(parallel_env):
 
 
 if __name__ == "__main__":
-    parallel_env = simple_tag_v2.parallel_env(num_good = 8, num_adversaries = 8, num_obstacles = 5, max_cycles = 500)
+    parallel_env = simple_adversary_v2.parallel_env(N=2, max_cycles=25, continuous_actions=False)
     parallel_env.seed(1)
 
     sess = tf.Session()
 
-    RL_good = DeepQNetwork(sess, 5,58,
+    RL_good = DeepQNetwork(sess, 5,10,
                       learning_rate=0.01,
                       reward_decay=0.9,
                       e_greedy=0.9,
@@ -168,7 +165,7 @@ if __name__ == "__main__":
                       name = 'RLgood',
                       )
 
-    RL_adversary = DeepQNetwork(sess, 5,60,
+    RL_adversary = DeepQNetwork(sess, 5, 8,
                       learning_rate=0.01,
                       reward_decay=0.9,
                       e_greedy=0.9,

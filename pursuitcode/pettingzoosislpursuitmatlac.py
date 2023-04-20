@@ -4,9 +4,10 @@ from RL_brain_matwolevelac import Actor
 from RL_brain_matwolevelac import Critic
 from RL_brain_matwolevelac import Actor2
 from RL_brain_matwolevelac import Critic2
+import os
 
 import csv
-import numpy as np 
+import numpy as np
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 
@@ -43,26 +44,26 @@ def linear_decay(epoch, x, y):
 
 
 def run_pursuit():
-    
+
     step = 0
     with open('pettingzoosislpursuitmatlac.csv', 'w+') as myfile:
-        myfile.write('{0},{1}\n'.format("Episode", "sumofrewards(MATLAC)")) 
+        myfile.write('{0},{1}\n'.format("Episode", "sumofrewards(MATLAC)"))
 
 
     with open('pettingzoosislpursuitmatlacevaders.csv', 'w+') as myfile:
-        myfile.write('{0},{1}\n'.format("Episode", "evaders(MATLAC)")) 
+        myfile.write('{0},{1}\n'.format("Episode", "evaders(MATLAC)"))
 
 
 
     with open('pettingzoosislpursuitmatlacfrequency.csv', 'w+') as myfile:
         myfile.write('{0},{1},{2},{3},{4}\n'.format("Episode", "frequency1", "frequency2", "frequency3", "frequency4"))
-    
+
     num_episode = 0
 
     eps = 1
 
 
-    while num_episode < 2000:
+    while num_episode < 20:
         agent_num = 0
         env.reset()
         evaders_removed = 0
@@ -75,56 +76,56 @@ def run_pursuit():
         for i in range(len(env.agents)):
             action_list[i].append(0)
         for agent in env.agent_iter():
-            
-            
+
+
             observation, reward, done, info = env.last()
             observation = change_observation(observation)
             accumulated_reward = accumulated_reward + reward
             obs_list[agent_num].append(observation)
-            
-            
+
+
             if (np.random.uniform() <= eps):
                 advisor = actor2.choose_advisor(observation)
 
-                if advisor == 0: 
+                if advisor == 0:
                     action = RL.choose_action(observation, execution=True)
 
-                elif advisor == 1: 
+                elif advisor == 1:
                     action = RL2.choose_action(observation, execution=True)
 
-                elif advisor == 2: 
+                elif advisor == 2:
                     action = RL3.choose_action(observation, execution=True)
 
-                elif advisor == 3: 
+                elif advisor == 3:
                     action = RL4.choose_action(observation, execution=True)
 
 
 
-                frequency[advisor] = frequency[advisor] + 1 
-            
-            
-            else: 
+                frequency[advisor] = frequency[advisor] + 1
+
+
+            else:
                action = actor.choose_action(observation)
                advisor = 4
 
-            
-            
+
+
             action_list[agent_num].append(action)
-            
+
             reward_list[agent_num].append(reward)
-            
+
             advisor_list[agent_num].append(advisor)
 
-            
-            
-            
+
+
+
             if len(obs_list[agent_num]) == 2:
-                
+
                 action_opp = []
                 for i in range(len(env.agents)):
                     if i != agent_num:
                         action_opp.append(action_list[i][0])
-                
+
                 action_opp_new = []
                 for i in range(len(env.agents)):
                     if i != agent_num:
@@ -133,13 +134,13 @@ def run_pursuit():
 
                 target_value, q_values  = critic.learn(obs_list[agent_num][0], action_list[agent_num][0], action_opp, reward_list[agent_num][0], obs_list[agent_num][1], action_opp_new)
                 actor.learn(obs_list[agent_num][0], action_list[agent_num][0], target_value, q_values)
-           
+
                 advisor = advisor_list[agent_num][0]
-                if advisor != 4:  
-                    
+                if advisor != 4:
+
                     target_value, q_values = critic2.learn(obs_list[agent_num][0], advisor, action_opp, reward_list[agent_num][0], obs_list[agent_num][1], action_opp_new)
                     actor2.learn(obs_list[agent_num][0], advisor_list[agent_num][0], target_value, q_values)
-           
+
 
 
 
@@ -148,19 +149,19 @@ def run_pursuit():
                 obs_list[agent_num].pop(0)
                 action_list[agent_num].pop(0)
                 reward_list[agent_num].pop(0)
-            
+
             if done == False:
                 env.step(action)
-            
+
             step += 1
-            
-            
+
+
             agent_num = agent_num + 1
-            
+
             if agent_num == len(env.agents):
                 evaders_removed = evaders_removed + env.evader_removed()
                 agent_num = 0
-            
+
             if done:
                 break
 
@@ -171,8 +172,8 @@ def run_pursuit():
         with open('pettingzoosislpursuitmatlacevaders.csv', 'a') as myfile:
             myfile.write('{0},{1}\n'.format(num_episode, evaders_removed))
 
-        
-        
+
+
         sum1 = 0
         for i in range(len(frequency)):
             sum1 = sum1 + frequency[i]
@@ -186,16 +187,16 @@ def run_pursuit():
 
         with open('pettingzoosislpursuitmatlacfrequency.csv', 'w+') as myfile:
             myfile.write('{0},{1},{2},{3},{4}\n'.format(num_episode, frequency[0], frequency[1], frequency[2], frequency[3]))
-        
-        
-        
-        num_episode = num_episode + 1            
+
+
+
+        num_episode = num_episode + 1
         eps = linear_decay(num_episode, [0, int(2000 * 0.99), 2000], [1, 0.2, 0])
         print("We are now in episode", num_episode)
     print('game over')
 
 
-    #Code for loop that does both training and execution 
+    #Code for loop that does both training and execution
     #while num_episode < 2000:
     #    agent_num = 0
     #    env.reset()
@@ -209,57 +210,57 @@ def run_pursuit():
     #    for i in range(len(env.agents)):
     #        action_list[i].append(0)
     #    for agent in env.agent_iter():
-    #        
-    #        
+    #
+    #
     #        observation, reward, done, info = env.last()
     #        observation = change_observation(observation)
     #        accumulated_reward = accumulated_reward + reward
     #        obs_list[agent_num].append(observation)
-    #        
-    #        
+    #
+    #
     #        if (np.random.uniform() <= eps):
     #            advisor = actor2.choose_advisor(observation)
 
-    #            if advisor == 0: 
+    #            if advisor == 0:
     #                action = RL.choose_action(observation, execution=True)
 
-    #            elif advisor == 1: 
+    #            elif advisor == 1:
     #                action = RL2.choose_action(observation, execution=True)
 
-    #            elif advisor == 2: 
+    #            elif advisor == 2:
     #                action = RL3.choose_action(observation, execution=True)
 
-    #            elif advisor == 3: 
+    #            elif advisor == 3:
     #                action = RL4.choose_action(observation, execution=True)
 
 
 
-    #            frequency[advisor] = frequency[advisor] + 1 
-    #        
-    #        
-    #        else: 
+    #            frequency[advisor] = frequency[advisor] + 1
+    #
+    #
+    #        else:
     #           action = actor.choose_action(observation)
     #           advisor = 4
 
-    #        
-    #        
+    #
+    #
     #        if num_episode < 2000:
     #            action_list[agent_num].append(action)
-    #            
+    #
     #            reward_list[agent_num].append(reward)
-    #            
+    #
     #            advisor_list[agent_num].append(advisor)
 
-    #            
-    #            
-    #            
+    #
+    #
+    #
     #            if len(obs_list[agent_num]) == 2:
-    #                
+    #
     #                action_opp = []
     #                for i in range(len(env.agents)):
     #                    if i != agent_num:
     #                        action_opp.append(action_list[i][0])
-    #                
+    #
     #                action_opp_new = []
     #                for i in range(len(env.agents)):
     #                    if i != agent_num:
@@ -268,13 +269,13 @@ def run_pursuit():
 
     #                target_value, q_values  = critic.learn(obs_list[agent_num][0], action_list[agent_num][0], action_opp, reward_list[agent_num][0], obs_list[agent_num][1], action_opp_new)
     #                actor.learn(obs_list[agent_num][0], action_list[agent_num][0], target_value, q_values)
-    #           
+    #
     #                advisor = advisor_list[agent_num][0]
-    #                if advisor != 4:  
-    #                    
+    #                if advisor != 4:
+    #
     #                    target_value, q_values = critic2.learn(obs_list[agent_num][0], advisor, action_opp, reward_list[agent_num][0], obs_list[agent_num][1], action_opp_new)
     #                    actor2.learn(obs_list[agent_num][0], advisor_list[agent_num][0], target_value, q_values)
-    #           
+    #
 
 
 
@@ -283,21 +284,21 @@ def run_pursuit():
     #                obs_list[agent_num].pop(0)
     #                action_list[agent_num].pop(0)
     #                reward_list[agent_num].pop(0)
-    #        
-    #        
-    #        
+    #
+    #
+    #
     #        if done == False:
     #            env.step(action)
-    #        
+    #
     #        step += 1
-    #        
-    #        
+    #
+    #
     #        agent_num = agent_num + 1
-    #        
+    #
     #        if agent_num == len(env.agents):
     #            evaders_removed = evaders_removed + env.evader_removed()
     #            agent_num = 0
-    #        
+    #
     #        if done:
     #            break
 
@@ -309,8 +310,8 @@ def run_pursuit():
 
     #    with open('pettingzoosislpursuitmatlacevaders.csv', 'a') as myfile:
     #        myfile.write('{0},{1}\n'.format(num_episode, evaders_removed))
-    #    
-    #    
+    #
+    #
     #    sum1 = 0
     #    for i in range(len(frequency)):
     #        sum1 = sum1 + frequency[i]
@@ -324,14 +325,14 @@ def run_pursuit():
 
     #    with open('pettingzoosislpursuitmatlacfrequency.csv', 'w+') as myfile:
     #        myfile.write('{0},{1},{2},{3},{4}\n'.format(num_episode, frequency[0], frequency[1], frequency[2], frequency[3]))
-    #    
-    #    
-    #    
-    #    num_episode = num_episode + 1            
+    #
+    #
+    #
+    #    num_episode = num_episode + 1
     #    if num_episode < 2000:
     #        eps = linear_decay(num_episode, [0, int(2000 * 0.99), 2000], [1, 0.2, 0])
-    #    else: 
-    #        eps = 0 
+    #    else:
+    #        eps = 0
     #    print("We are now in episode", num_episode)
     #print('game over')
 
@@ -343,7 +344,7 @@ if __name__ == "__main__":
     env.seed(1)
 
     sess = tf.Session()
-    
+
     name = 'RL1'
 
 
@@ -388,19 +389,21 @@ if __name__ == "__main__":
 
     actor = Actor(sess, n_features=147, n_actions=5, lr=0.000001)
     actor2 = Actor2(sess, n_features=147, n_advisors=4, lr=0.000001)
-    critic = Critic(sess, n_features=147, n_actions=5, lr=0.001)     
-    critic2 = Critic2(sess, n_features=147, n_advisors=4, lr=0.001)     
+    critic = Critic(sess, n_features=147, n_actions=5, lr=0.001)
+    critic2 = Critic2(sess, n_features=147, n_advisors=4, lr=0.001)
 
     sess.run(tf.global_variables_initializer())
-    
-    RL.restore_model("./tmp/dqnmodel.ckpt")
-    RL2.restore_model("./tmp2/dqnmodel.ckpt")
-    RL3.restore_model("./tmp3/dqnmodel.ckpt")
-    RL4.restore_model("./tmp4/dqnmodel.ckpt")
-     
 
-    
-    
-    
+    print(f"os.getcwd() ---->>>>> {os.getcwd()}")
+
+    RL.restore_model("./tmp/dqnmodel.ckpt")
+    # RL2.restore_model("./tmp2/dqnmodel.ckpt")
+    # RL3.restore_model("./tmp3/dqnmodel.ckpt")
+    # RL4.restore_model("./tmp4/dqnmodel.ckpt")
+
+
+
+
+
     run_pursuit()
 

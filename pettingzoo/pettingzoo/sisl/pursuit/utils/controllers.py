@@ -24,7 +24,8 @@ class RandomPolicy(PursuitPolicy):
         self.rng = rng
 
     def act(self, state):
-        return self.rng.randint(self.n_actions)
+        self.rng = np.random.randint(self.n_actions)
+        return self.rng
 
 
 class SingleActionPolicy(PursuitPolicy):

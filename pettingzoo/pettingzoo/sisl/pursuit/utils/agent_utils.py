@@ -53,13 +53,13 @@ def feasible_position_exp(randomizer, map_matrix, expanded_mat, constraints=None
     xs, ys = map_matrix.shape
     while True:
         if constraints is None:
-            x = randomizer.randint(0, xs)
-            y = randomizer.randint(0, ys)
+            x = np.random.randint(0, xs)
+            y = np.random.randint(0, ys)
         else:
             xl, xu = constraints[0]
             yl, yu = constraints[1]
-            x = randomizer.randint(xl, xu)
-            y = randomizer.randint(yl, yu)
+            x = np.random.randint(xl, xu)
+            y = np.random.randint(yl, yu)
         if map_matrix[x, y] != -1 and expanded_mat[x + 1, y + 1] != -1:
             return (x, y)
 
