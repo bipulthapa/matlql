@@ -189,7 +189,7 @@ class Critic(object):
     def __init__(self, sess, n_features, n_actions, lr=0.01):
         self.sess = sess
 
-        self.s = tf.placeholder(tf.float32, [1, n_features+15], "matlacstate")
+        self.s = tf.placeholder(tf.float32, [1, n_features+2], "matlacstate")
         self.a = tf.placeholder(tf.int32, None, "matlacact")
         self.q_ = tf.placeholder(tf.float32, [1, 1], "matlacq_next")
         self.r = tf.placeholder(tf.float32, None, 'matlacr')
@@ -291,7 +291,7 @@ class Critic2(object):
     def __init__(self, sess, n_features, n_advisors, lr=0.01):
         self.sess = sess
 
-        self.s = tf.placeholder(tf.float32, [1, n_features+15], "matlacstate")
+        self.s = tf.placeholder(tf.float32, [1, n_features+2], "matlacstate")
         self.ex = tf.placeholder(tf.int32, None, "matlacact")
         self.q_ = tf.placeholder(tf.float32, [1, 1], "matlacq_next")
         self.r = tf.placeholder(tf.float32, None, 'matlacr')
