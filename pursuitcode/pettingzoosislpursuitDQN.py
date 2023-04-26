@@ -41,13 +41,10 @@ def run_pursuit():
         accumulated_reward = 0
         for agent in env.agent_iter():
             observation, reward, done, info = env.last()
-            print(f"observation size {observation.size}")
             observation = change_observation(observation)
-            print(f"observation after: {observation.size}")
             accumulated_reward = accumulated_reward + reward
             obs_list[agent_num].append(observation)
             action = RL.choose_action(observation)
-            print(f"action val: {action}")
             action_list[agent_num].append(action)
             reward_list[agent_num].append(reward)
             if len(obs_list[agent_num]) == 2:

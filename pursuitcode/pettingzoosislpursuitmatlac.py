@@ -394,8 +394,6 @@ if __name__ == "__main__":
 
     sess.run(tf.global_variables_initializer())
 
-    print(f"os.getcwd() ---->>>>> {os.getcwd()}")
-
     RL.restore_model("./tmp/dqnmodel.ckpt")
     # RL2.restore_model("./tmp2/dqnmodel.ckpt")
     # RL3.restore_model("./tmp3/dqnmodel.ckpt")
