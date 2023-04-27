@@ -37,7 +37,7 @@ def run_mpe(parallel_env):
         myfile.write('{0},{1}\n'.format("Episode", "sumofrewardsgood(TLQL)", "sumofaveragerewardsadversary(TLQL)"))
     num_episode = 0
     eps = 1
-    while num_episode < 12:
+    while num_episode < 1000:
 
         observation = parallel_env.reset()
         accumulated_reward = [0,0]

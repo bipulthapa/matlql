@@ -47,7 +47,7 @@ def run_mpe(parallel_env):
   num_episode = 0
   state_freq_dict = {}
   eps = 1
-  while num_episode < 20:
+  while num_episode < 1000:
       agent_num = 0
       env.reset()
       evaders_removed = 0
