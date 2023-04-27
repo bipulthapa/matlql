@@ -16,7 +16,7 @@ def run_mpe(parallel_env):
         myfile.write('{0},{1},{2}\n'.format("Episode", "sumofrewardsgood(DQN)", "sumofaveragerewardsadversary(DQN)"))
 
     num_episode = 0
-    while num_episode < 10:
+    while num_episode < 12000:
         observation = parallel_env.reset()
         accumulated_reward = [0,0]
         max_cycles = 500
