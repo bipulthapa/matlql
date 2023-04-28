@@ -322,6 +322,11 @@ if __name__ == "__main__":
 
     sess.run(tf.global_variables_initializer())
 
+    RL_adversary.save_model("./tmp/dqnmodel.ckpt")
+    RL2_adversary.save_model("./tmp2/dqnmodel.ckpt")
+    RL3_adversary.save_model("./tmp3/dqnmodel.ckpt")
+    RL4_adversary.save_model("./tmp4/dqnmodel.ckpt")
+
     RL_adversary.restore_model("./tmp/dqnmodel.ckpt")
     RL2_adversary.restore_model("./tmp2/dqnmodel.ckpt")
     RL3_adversary.restore_model("./tmp3/dqnmodel.ckpt")

@@ -45,7 +45,7 @@ def run_mpe(parallel_env):
     eps = 1
 
 
-    while num_episode < 12:
+    while num_episode < 1000:
         observation = parallel_env.reset()
         accumulated_reward = [0,0]
         max_cycles = 500
