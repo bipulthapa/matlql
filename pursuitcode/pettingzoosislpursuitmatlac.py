@@ -63,7 +63,7 @@ def run_pursuit():
     eps = 1
 
 
-    while num_episode < 20:
+    while num_episode < 1000:
         agent_num = 0
         env.reset()
         evaders_removed = 0
@@ -395,9 +395,9 @@ if __name__ == "__main__":
     sess.run(tf.global_variables_initializer())
 
     RL.restore_model("./tmp/dqnmodel.ckpt")
-    # RL2.restore_model("./tmp2/dqnmodel.ckpt")
-    # RL3.restore_model("./tmp3/dqnmodel.ckpt")
-    # RL4.restore_model("./tmp4/dqnmodel.ckpt")
+    RL2.restore_model("./tmp2/dqnmodel.ckpt")
+    RL3.restore_model("./tmp3/dqnmodel.ckpt")
+    RL4.restore_model("./tmp4/dqnmodel.ckpt")
 
 
 

@@ -31,7 +31,7 @@ def run_pursuit():
         myfile.write('{0},{1}\n'.format("Episode", "evaders(DQN)"))
 
     num_episode = 0
-    while num_episode < 2:
+    while num_episode < 1000:
         agent_num = 0
         env.reset()
         evaders_removed = 0
