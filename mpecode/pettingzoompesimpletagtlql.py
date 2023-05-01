@@ -322,6 +322,7 @@ if __name__ == "__main__":
 
     sess.run(tf.global_variables_initializer())
 
+    # Added by Bipul
     RL_adversary.save_model("./tmp/dqnmodel.ckpt")
     RL2_adversary.save_model("./tmp2/dqnmodel.ckpt")
     RL3_adversary.save_model("./tmp3/dqnmodel.ckpt")
