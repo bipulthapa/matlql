@@ -380,7 +380,7 @@ if __name__ == "__main__":
                       reward_decay=0.9,
                       e_greedy=1,
                       replace_target_iter=10,
-                      memory_size=20,
+                      memory_size=2000000,
                       name = name,
                       )
 
@@ -390,7 +390,7 @@ if __name__ == "__main__":
                       reward_decay=0.9,
                       e_greedy=1,
                       replace_target_iter=10,
-                      memory_size=20,
+                      memory_size=2000000,
                       name = name,
                       )
 
@@ -400,7 +400,7 @@ if __name__ == "__main__":
                       reward_decay=0.9,
                       e_greedy=1,
                       replace_target_iter=10,
-                      memory_size=20,
+                      memory_size=2000000,
                       name = name,
                       )
 
@@ -410,7 +410,7 @@ if __name__ == "__main__":
                       reward_decay=0.9,
                       e_greedy=1,
                       replace_target_iter=10,
-                      memory_size=20,
+                      memory_size=2000000,
                       name = name,
                       )
 

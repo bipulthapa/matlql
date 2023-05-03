@@ -4,7 +4,6 @@ from RL_brain_matwolevelac import Actor
 from RL_brain_matwolevelac import Critic
 from RL_brain_matwolevelac import Actor2
 from RL_brain_matwolevelac import Critic2
-import os
 
 import csv
 import numpy as np

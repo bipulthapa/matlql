@@ -155,7 +155,7 @@ if __name__ == "__main__":
                       reward_decay=0.9,
                       e_greedy=0.9,
                       replace_target_iter=10,
-                      memory_size=1000000,
+                      memory_size=2000000,
                       name = 'RL1',
                       )
 
