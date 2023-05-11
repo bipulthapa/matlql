@@ -77,7 +77,7 @@ def run_pursuit():
 
    # Code for loop that does both training and execution
 
-   while num_episode < 2100:
+    while num_episode < 2100:
        agent_num = 0
        env.reset()
        evaders_removed = 0
