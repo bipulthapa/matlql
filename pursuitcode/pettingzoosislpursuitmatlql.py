@@ -9,7 +9,7 @@ tf.disable_v2_behavior()
 
 seed_value = 1
 print(f"Seed value: {seed_value}")
-np.random.seed(1)
+np.random.seed(seed_value)
 
 
 def change_observation(observation):
