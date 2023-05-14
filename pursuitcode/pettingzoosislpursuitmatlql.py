@@ -190,9 +190,8 @@ def run_pursuit():
 
 
 
-
-    #Code for training and execution being conducted together.
-    while num_episode < 1100:
+#Code for training and execution being conducted together.
+    while num_episode < 2100:
        agent_num = 0
        env.reset()
        evaders_removed = 0
@@ -247,14 +246,14 @@ def run_pursuit():
 
 
            else:
-               if num_episode < 1000:
+               if num_episode < 2000:
                    action = MATLQL.choose_action(observation, action_opp)
                else:
                    action = MATLQL.choose_action(observation, action_opp, execution=True)
                advisor = 4
 
 
-           if num_episode < 1000:
+           if num_episode < 2000:
                advisor_list[agent_num].append(advisor)
 
                action_list[agent_num].append(action)
@@ -291,7 +290,7 @@ def run_pursuit():
 
            step += 1
 
-           if num_episode < 1000:
+           if num_episode < 2000:
                if (step > 200) and (step % 5 == 0):
                    MATLQL.learn()
 
@@ -330,14 +329,13 @@ def run_pursuit():
 
        num_episode = num_episode + 1
 
-       if num_episode < 1000:
-           eps = linear_decay(num_episode, [0, int(1000 * 0.99), 1000], [1, 0.2, 0])
+       if num_episode < 2000:
+           eps = linear_decay(num_episode, [0, int(2000 * 0.99), 2000], [1, 0.2, 0])
        else:
            eps = 0
 
        print("We are now in episode", num_episode)
     print('game over')
-
 
 
 
