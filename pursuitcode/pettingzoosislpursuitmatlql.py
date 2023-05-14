@@ -7,8 +7,8 @@ from RL_brain_matwolevelql import matlqlNetwork
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 
-
-
+seed_value = 1
+print(f"Seed value: {seed_value}")
 np.random.seed(1)
 
 
@@ -368,7 +368,7 @@ if __name__ == "__main__":
 
     env = pursuit.env(tag_reward=1, catch_reward=30.0)
 
-    env.seed(1)
+    env.seed(seed_value)
 
     sess = tf.Session()
 
