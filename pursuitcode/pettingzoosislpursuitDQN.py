@@ -6,8 +6,19 @@ import numpy as np
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 
+seed_value = 1
+RL_name = 'RL1'
+model_path = "./tmp/dqnmodel.ckpt"
 
-np.random.seed(1)
+print(f"########")
+print(f"########")
+print("Configurations")
+print(f"Seed value: {seed_value}, RL_name: {RL_name}, model_path: {model_path}")
+print(f"########")
+print(f"########")
+
+
+np.random.seed(seed_value)
 
 def change_observation(observation):
     observation = observation.tolist()
@@ -139,8 +150,8 @@ def run_pursuit():
 
 
 
-    RL.save_model("./tmp/dqnmodel.ckpt")
-    RL.restore_model("./tmp/dqnmodel.ckpt")
+    RL.save_model(model_path)
+    RL.restore_model(model_path)
 
 
     print('game over')
@@ -149,7 +160,7 @@ def run_pursuit():
 if __name__ == "__main__":
     env = pursuit.env(tag_reward=1, catch_reward=30.0)
 
-    env.seed(1)
+    env.seed(seed_value)
     sess = tf.Session()
     RL = DeepQNetwork(sess, 5,147,
                       learning_rate=0.01,
@@ -157,7 +168,7 @@ if __name__ == "__main__":
                       e_greedy=0.9,
                       replace_target_iter=10,
                       memory_size=2000000,
-                      name = 'RL1',
+                      name = RL_name,
                       )
 
     sess.run(tf.global_variables_initializer())
