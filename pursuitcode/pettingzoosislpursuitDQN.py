@@ -7,6 +7,7 @@ import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 
 seed_value = 1
+episodes_limit = 2000
 RL_name = 'RL1'
 model_path = "./tmp/dqnmodel.ckpt"
 
@@ -43,7 +44,7 @@ def run_pursuit():
         myfile.write('{0},{1}\n'.format("Episode", "evaders(DQN)"))
 
     num_episode = 0
-    # while num_episode < 2000:
+    # while num_episode < episodes_limit:
     #     agent_num = 0
     #     env.reset()
     #     evaders_removed = 0
@@ -88,7 +89,7 @@ def run_pursuit():
 
    # Code for loop that does both training and execution
 
-    while num_episode < 2100:
+    while num_episode < (episodes_limit + 100):
        agent_num = 0
        env.reset()
        evaders_removed = 0
@@ -102,12 +103,12 @@ def run_pursuit():
            accumulated_reward = accumulated_reward + reward
            # RL choose action based on observation
 
-           if num_episode >= 2000:
+           if num_episode >= episodes_limit:
                action = RL.choose_action(observation, execution=True)
            else:
                action = RL.choose_action(observation)
 
-           if num_episode < 2000:
+           if num_episode < episodes_limit:
                obs_list[agent_num].append(observation)
                action_list[agent_num].append(action)
                reward_list[agent_num].append(reward)
@@ -124,7 +125,7 @@ def run_pursuit():
 
            step += 1
 
-           if num_episode < 2000:
+           if num_episode < episodes_limit:
                if (step > 200) and (step % 5 == 0):
                    RL.learn()
 
